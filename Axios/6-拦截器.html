@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.设置请求拦截器
+        axios.interceptors.request.use(function (config) {
+            console.log('请求拦截器1 成功')
+            // throw 'HaHa';
+            //修改config中的参数
+            config.params = {a:111}
+            return config;
+        }, function (error) {
+            console.log('请求拦截器1 失败')
+            return Promise.reject(error);
+        });
+        //2.设置请求拦截器
+        axios.interceptors.request.use(function (config) {
+            console.log('请求拦截器2 成功')
+            //修改config中的参数
+            config.timeout = 2000
+            return config;
+        }, function (error) {
+            console.log('请求拦截器2 失败')
+            return Promise.reject(error);
+        });
+
+        // 设置响应拦截器
+        axios.interceptors.response.use(function (response) {
+            console.log('响应拦截器1 成功')
+            console.log(response);
+            return response.data;
+        }, function (error) {
+            console.log('响应拦截器1 失败')
+            return Promise.reject(error);
+        });
+        // 设置响应拦截器
+        axios.interceptors.response.use(function (response) {
+            console.log('响应拦截器2 成功')
+            return response;
+        }, function (error) {
+            console.log('响应拦截器2 失败')
+            return Promise.reject(error);
+        });
+        //发送请求
+        axios.get(
+            'http:127.0.0.1:3000/comments'
+        ).then(
+            response => {
+                
+                console.log('请求成功')
+                console.log(response)
+            }
+        )
+
+    </script>
+</body>
+
+</html>
